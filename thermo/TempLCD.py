@@ -15,14 +15,10 @@ from Freenove_DHT import DHT
 DHTpin = 11
 
 
-def get_temp():     # get CPU temperature and store it into file "/sys/class/thermal/thermal_zone0/temp"
-    while(True):
-        for i in range (0,15):
-            chk = dht.readDHT11()
-            if (chk is dht.DHT_LIB_OK):
-                break
-            time.sleep(0.1)
-        return(dht.temperature) 
+def get_temp():    
+    dht = DHT(11)
+    dht.readDHT11
+    return(dht.temperature) 
     
  
 def get_time_now():     # get system time
