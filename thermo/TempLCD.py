@@ -15,10 +15,9 @@ from Freenove_DHT import DHT
 DHTpin = 11
 
 
-def get_temp():    
-    dht = DHT(11)
-    dht.readDHT11
-    return(dht.temperature) 
+def get_temperature():    
+    dht = DHT(DHTpin)
+    return dht.temperature 
     
  
 def get_time_now():     # get system time
@@ -30,7 +29,7 @@ def loop():
     while(True):         
         #lcd.clear()
         lcd.setCursor(0,0)  # set cursor position
-        lcd.message( 'Temp: ' + get_temp()+'\n' )# display CPU temperature
+        lcd.message( 'Temp: ' + get_temperature()+'\n' )# display CPU temperature
         lcd.message( 'get_time_now()' )   # display the time
         sleep(1)
         
