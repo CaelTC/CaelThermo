@@ -16,21 +16,43 @@ DHTpin = 11
 
 
 def get_temperature():    
-    dht = DHT(DHTpin)
-    return dht.temperature 
-    
+    sensor = DHT(DHTpin)
+    status= sensor.readDHT11()
+    if status is sensor.DHTLIB_OK:
+        return sensor.temperature 
+    else:
+        return None
  
-def get_time_now():     # get system time
-    return datetime.now().strftime('    %H:%M:%S')
-    
+ def get_humidity():    
+    sensor = DHT(DHTpin)
+    status= sensor.readDHT11()
+    if status is sensor.DHTLIB_OK:
+        return sensor.humidity 
+    else:
+        return None
+       
+ def display_temperature (temperature):  
+    if temperature is None:
+        lcd.message( 'Temperature error')
+    else:
+        lcd.message( 'Temp: ' + str(temperature)+'\n' )
+
+def display_humidity (humidity):
+    if humidity is None:
+        lcd.message( 'Humidity error')
+    else:
+        lcd.message( 'Hum:' + str(humidity)+ '/n')
+
+
 def loop():
     mcp.output(3,1)     # turn on LCD backlight
     lcd.begin(16,2)     # set number of LCD lines and columns
-    while(True):         
-        #lcd.clear()
-        lcd.setCursor(0,0)  # set cursor position
-        lcd.message( 'Temp: ' + str(get_temperature())+'\n' )# display CPU temperature
-        lcd.message( 'get_time_now()' )   # display the time
+    while(True):  
+        temperature = get_temperature()  
+        humidity = get_humidity()     
+        lcd.setCursor(0,0)  
+        display_temperature(temperature)
+        display_humidity(humidity)
         sleep(1)
         
 def destroy():
