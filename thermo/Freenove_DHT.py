@@ -23,7 +23,7 @@ class DHT(object):
 	def __init__(self,pin):
 		self.pin = pin
 		self.bits = [0,0,0,0,0]
-		GPIO.setmode(GPIO.BOARD)
+		GPIO.setmode(GPIO.BCM)
 	#Read DHT sensor, store the original data in bits[]	
 	def readSensor(self,pin,wakeupDelay):
 		mask = 0x80
@@ -106,7 +106,7 @@ class DHT(object):
 		
 		
 def loop():
-	dht = DHT(11)
+	dht = DHT(17)
 	sumCnt = 0
 	okCnt = 0
 	while(True):

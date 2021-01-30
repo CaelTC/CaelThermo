@@ -7,15 +7,15 @@
 ########################################################################
 from PCF8574 import PCF8574_GPIO
 from Adafruit_LCD1602 import Adafruit_CharLCD
-
-from time import sleep, strftime
+from time import sleep
 from datetime import datetime
 from Freenove_DHT import DHT
-from Buttoncount import buttonIncrement, buttonDecrement
+from gpiozero import Button
 
-count = 20
-DHTpin = 11
-
+DHTpin = 17
+buttonDecrementPin = Button(24)
+buttonIncrementPin = Button(23)
+count = 20.0
 
 def get_temperature():
     sensor = DHT(DHTpin)
@@ -33,13 +33,22 @@ def get_humidity():
         return sensor.humidity
     else:
         return None
-def cible():
-    if buttonDecrement()
-        return count
-    if buttonIncrement()
-        return count
-    else 
-        return count
+
+def buttonIncrement():
+    global count
+    count = count + 0.5
+    
+
+        
+
+
+def buttonDecrement():
+    global count
+    count = count - 0.5
+    
+    
+buttonDecrementPin.when_activated= buttonDecrement
+buttonIncrementPin.when_activated = buttonIncrement   
     
 
 
@@ -56,9 +65,10 @@ def display_humidity(humidity):
     else:
         lcd.message('Hum:' + str(humidity) + '\n')
 
-        
-def display_cible(cible):
-    if cible is 10:
+
+def display_cible():
+    global count
+    if count <10:
         lcd.message ('10 fait frette)')
     else:
         lcd.message('Set' + str(count) +'\n')
@@ -68,12 +78,10 @@ def loop():
     lcd.begin(16, 2)     # set number of LCD lines and columns
     while(True):
         temperature = get_temperature()
-        humidity = get_humidity()
         lcd.setCursor(0, 0)
         display_temperature(temperature)
-        display_humidity(humidity)
-        display_cible(cible)
-        sleep(1)
+        display_cible()
+        
 
 
 def destroy():
