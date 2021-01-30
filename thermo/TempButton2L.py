@@ -19,7 +19,6 @@ import os
 DHTpin = 17
 buttonDecrementPin = Button(24)
 buttonIncrementPin = Button(23)
-led = LED(25)
 count = 18.0
 Relay_PIN = 16
 test = 0
@@ -49,9 +48,10 @@ def chauffage():
 
 def cyclecounter():
     global test
-    if relay.value != relay.value:
+    relay.value_to_state
+    if relay != relay :
         test = test + 1
-        print (test)    
+    print (int(test))    
 
 def error():
     global count
