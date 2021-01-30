@@ -49,7 +49,7 @@ def chauffage():
 
 def cyclecounter():
     global test
-    if relay != relay :
+    if relay._active_state != relay._active_state :
         test = test + 1
     print (int(test))    
 
