@@ -23,7 +23,7 @@ count = 18.0
 Relay_PIN = 16
 test = 0
 
-relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=False, )
+relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=None,  )
 
 
 def get_temperature():
@@ -31,7 +31,7 @@ def get_temperature():
     status = sensor.readDHT11()
     if status is sensor.DHTLIB_OK:
         return sensor.temperature
-        sleep (30)
+        sleep (30.0)
     else:
         return None
 
@@ -49,7 +49,6 @@ def chauffage():
 
 def cyclecounter():
     global test
-    relay.value_to_state
     if relay != relay :
         test = test + 1
     print (int(test))    
