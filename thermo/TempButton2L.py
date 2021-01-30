@@ -31,6 +31,7 @@ def get_temperature():
     status = sensor.readDHT11()
     if status is sensor.DHTLIB_OK:
         return sensor.temperature
+        sleep (30)
     else:
         return None
 
