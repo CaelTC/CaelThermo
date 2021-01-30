@@ -11,6 +11,7 @@ from time import sleep
 from datetime import datetime
 from Freenove_DHT import DHT
 from gpiozero import Button, LED
+import gpiozero
 import os
 
 
