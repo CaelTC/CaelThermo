@@ -21,6 +21,10 @@ buttonDecrementPin = Button(24)
 buttonIncrementPin = Button(23)
 led = LED(25)
 count = 18.0
+Relay_PIN = 16
+
+relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=False, )
+
 
 def get_temperature():
     sensor = DHT(DHTpin)
@@ -38,9 +42,9 @@ def buttonIncrement():
 def chauffage():
     global count
     if count > get_temperature():
-        led.on()
+        relay.on()
     else:
-        led.off()        
+        relay.off()        
 
 def error():
     global count
