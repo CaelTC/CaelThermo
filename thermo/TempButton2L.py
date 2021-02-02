@@ -31,13 +31,13 @@ def get_temperature():
     status = sensor.readDHT11()
     if status is sensor.DHTLIB_OK:
         return sensor.temperature
-        sleep (30.0)
     else:
         return None
 
 def buttonIncrement():
     global count
     count = count + 0.5
+    display_cible()
     sleep (0.2)
    
 def chauffage():
@@ -63,6 +63,7 @@ def error():
 def buttonDecrement():
     global count
     count = count - 0.5
+    display_cible()
     sleep(0.2)
     
     
@@ -89,8 +90,8 @@ def loop():
         temperature = get_temperature()
         chauffage()
         cyclecounter()
-        buttonDecrementPin.when_activated = buttonDecrement
-        buttonIncrementPin.when_activated = buttonIncrement 
+        buttonDecrementPin.when_pressed = buttonDecrement
+        buttonIncrementPin.when_pressed = buttonIncrement 
         error()
         lcd.setCursor(0, 0)
         display_temperature(temperature)
