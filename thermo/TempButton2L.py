@@ -60,8 +60,7 @@ def buttonDecrement():
     count = count - 0.5
     display_cible()
     sleep(0.2)
-    
-    
+ 
     
   
     
@@ -87,6 +86,7 @@ def loop():
         chauffage()
         buttonDecrementPin.when_pressed = buttonDecrement
         buttonIncrementPin.when_pressed = buttonIncrement 
+        buttonDecrementPin.is_held = lcd.clear 
         error()
         lcd.setCursor(0, 0)
         display_temperature(temperature)
