@@ -70,7 +70,7 @@ def buttonDecrement():
 def display_temperature(temperature):
     if temperature is None:
         lcd.message('Temperature error')
-        lcd.clear()
+        lcd.clear
     else:
         lcd.message('Temp: ' + str(temperature)+'\n')
 
