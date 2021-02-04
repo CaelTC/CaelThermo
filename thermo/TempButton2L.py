@@ -37,7 +37,6 @@ def get_temperature():
 def buttonIncrement():
     global count
     count = count + 0.5
-    display_cible()
     sleep (0.2)
    
 def chauffage():
@@ -58,11 +57,9 @@ def error():
 def buttonDecrement():
     global count
     count = count - 0.5
-    display_cible()
     sleep(0.2)
  
-def screenreset():
-    lcd.clear  
+  
   
     
 
@@ -91,7 +88,6 @@ def loop():
         lcd.setCursor(0, 0)
         display_temperature(temperature)
         display_cible()
-        buttonDecrementPin.is_held = screenreset
         sleep (0.1)        
         
 
