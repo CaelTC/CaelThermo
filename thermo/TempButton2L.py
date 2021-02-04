@@ -47,11 +47,6 @@ def chauffage():
     else:
         relay.off()
 
-def cyclecounter():
-    global test
-    if relay.is_active != relay.is_active :
-        test = test + 1
-    print (int(test))    
 
 def error():
     global count
@@ -75,6 +70,7 @@ def buttonDecrement():
 def display_temperature(temperature):
     if temperature is None:
         lcd.message('Temperature error')
+        lcd.clear()
     else:
         lcd.message('Temp: ' + str(temperature)+'\n')
 
