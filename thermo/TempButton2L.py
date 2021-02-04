@@ -51,7 +51,7 @@ def chauffage():
 def error():
     global count
     if count > 35:
-        os.system("shutdown now -r)")
+        os.system("shutdown now -r")
     if count < 10:
         os.system("shutdown now -r")
 
