@@ -17,8 +17,8 @@ import os
 
 
 DHTpin = 17
-buttonDecrementPin = Button(24)
-buttonIncrementPin = Button(23)
+buttonDecrementPin = Button(22)
+buttonIncrementPin = Button(27)
 count = 18.0
 Relay_PIN = 16
 test = 0
@@ -43,9 +43,9 @@ def buttonIncrement():
 def chauffage():
     global count
     if count > get_temperature():
-        relay.off()
-    else:
         relay.on()
+    else:
+        relay.off()
 
 def cyclecounter():
     global test
