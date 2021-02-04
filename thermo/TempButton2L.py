@@ -17,7 +17,7 @@ import os
 
 
 DHTpin = 17
-buttonDecrementPin = Button(22)
+buttonDecrementPin = Button(22, True, None, 5)
 buttonIncrementPin = Button(27)
 count = 18.0
 Relay_PIN = 16
