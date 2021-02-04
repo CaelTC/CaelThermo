@@ -91,7 +91,7 @@ def loop():
         lcd.setCursor(0, 0)
         display_temperature(temperature)
         display_cible()
-        buttonDecrementPin.is_held = lcd.LCD_CLEARDISPLAY
+        buttonDecrementPin.is_held = screenreset
         sleep (0.1)        
         
 
