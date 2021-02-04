@@ -85,7 +85,6 @@ def loop():
     while(True):
         temperature = get_temperature()
         chauffage()
-        cyclecounter()
         buttonDecrementPin.when_pressed = buttonDecrement
         buttonIncrementPin.when_pressed = buttonIncrement 
         error()
