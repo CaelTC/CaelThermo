@@ -17,7 +17,7 @@ import os
 
 
 DHTpin = 17
-buttonDecrementPin = Button(22, True, None, 5)
+buttonDecrementPin = Button(22)
 buttonIncrementPin = Button(27)
 count = 18.0
 Relay_PIN = 16
@@ -84,10 +84,10 @@ def loop():
         chauffage()
         buttonDecrementPin.when_pressed = buttonDecrement
         buttonIncrementPin.when_pressed = buttonIncrement 
-        error()
-        lcd.setCursor(0, 0)
         display_temperature(temperature)
         display_cible()
+        error()
+        lcd.setCursor(0, 0)
         sleep (0.1)        
         
 
