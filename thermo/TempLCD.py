@@ -7,7 +7,6 @@
 ########################################################################
 from PCF8574 import PCF8574_GPIO
 from Adafruit_LCD1602 import Adafruit_CharLCD
-
 from time import sleep, strftime
 from datetime import datetime
 from Freenove_DHT import DHT
@@ -34,11 +33,11 @@ def get_humidity():
     else:
         return None
 def cible():
-    if buttonDecrement()
+    if buttonDecrement():
         return count
-    if buttonIncrement()
+    if buttonIncrement():
         return count
-    else 
+    else:
         return count
     
 
