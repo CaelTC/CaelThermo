@@ -11,15 +11,20 @@ from time import sleep
 from datetime import datetime
 from Freenove_DHT import DHT
 from gpiozero import Button, LED
+import gpiozero
 import os
 
 
 
 DHTpin = 17
-buttonDecrementPin = Button(24)
-buttonIncrementPin = Button(23)
-led = LED(25)
+buttonDecrementPin = Button(22)
+buttonIncrementPin = Button(27)
 count = 18.0
+Relay_PIN = 16
+test = 0
+
+relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=False,  )
+
 
 def get_temperature():
     sensor = DHT(DHTpin)
@@ -37,14 +42,15 @@ def buttonIncrement():
 def chauffage():
     global count
     if count > get_temperature():
-        led.on()
+        relay.on()
     else:
-        led.off()        
+        relay.off()
+
 
 def error():
     global count
     if count > 35:
-        os.system("shutdown now -r)")
+        os.system("shutdown now -r")
     if count < 10:
         os.system("shutdown now -r")
 
@@ -52,9 +58,8 @@ def buttonDecrement():
     global count
     count = count - 0.5
     sleep(0.2)
-    
-    
-    
+ 
+  
   
     
 
@@ -62,6 +67,7 @@ def buttonDecrement():
 def display_temperature(temperature):
     if temperature is None:
         lcd.message('Temperature error')
+        lcd.clear
     else:
         lcd.message('Temp: ' + str(temperature)+'\n')
 
@@ -76,13 +82,13 @@ def loop():
     while(True):
         temperature = get_temperature()
         chauffage()
-        buttonDecrementPin.when_activated = buttonDecrement
-        buttonIncrementPin.when_activated = buttonIncrement 
-        error()
-        lcd.setCursor(0, 0)
+        buttonDecrementPin.when_pressed = buttonDecrement
+        buttonIncrementPin.when_pressed = buttonIncrement 
         display_temperature(temperature)
         display_cible()
-        sleep(0.1)
+        error()
+        lcd.setCursor(0, 0)
+        sleep (0.1)        
         
 
 
