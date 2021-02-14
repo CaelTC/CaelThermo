@@ -18,7 +18,7 @@ def buttonIncrement():
     global count
     if buttonIncrementPin.is_pressed:
         count = count + 0.5
-        sleep (0.3)
+        sleep (5)
 
 
 def buttonDecrement():
@@ -26,7 +26,7 @@ def buttonDecrement():
     if buttonDecrementPin.is_pressed:
         count = count - 0.5
         sleep (0.3)
-        
+
 
 
 
