@@ -8,12 +8,12 @@
 from PCF8574 import PCF8574_GPIO
 from Adafruit_LCD1602 import Adafruit_CharLCD
 from time import sleep
-from datetime import datetime
 from Freenove_DHT import DHT
 from gpiozero import Button, LED
 import gpiozero
 import os
 from threading import Event
+
 
 
 DHTpin = 17
