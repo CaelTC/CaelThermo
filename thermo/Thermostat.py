@@ -13,7 +13,7 @@ from Freenove_DHT import DHT
 from gpiozero import Button, LED
 import gpiozero
 import os
-
+from threading import Event
 
 
 DHTpin = 17
@@ -21,8 +21,7 @@ buttonDecrementPin = Button(22)
 buttonIncrementPin = Button(27)
 count = 18.0
 Relay_PIN = 16
-test = 0
-
+lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4, 5, 6, 7], GPIO=mcp)
 relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=False,  )
 
 
@@ -45,9 +44,9 @@ def chauffage():
         relay.on()
     else:
         relay.off()
-
-
-def error():
+        Event.wait(60)
+    
+def restart():
     global count
     if count > 35:
         os.system("shutdown now -r")
@@ -58,11 +57,6 @@ def buttonDecrement():
     global count
     count = count - 0.5
     sleep(0.2)
- 
-  
-  
-    
-
 
 def display_temperature(temperature):
     if temperature is None:
@@ -75,22 +69,6 @@ def display_temperature(temperature):
 def display_cible():
     global count
     lcd.message('Cible ' + str(count) +'\n')
-
-def loop():
-    mcp.output(3, 1)     # turn on LCD backlight
-    lcd.begin(16, 2)     # set number of LCD lines and columns
-    while(True):
-        temperature = get_temperature()
-        chauffage()
-        buttonDecrementPin.when_pressed = buttonDecrement
-        buttonIncrementPin.when_pressed = buttonIncrement 
-        display_temperature(temperature)
-        display_cible()
-        error()
-        lcd.setCursor(0, 0)
-        sleep (0.1)        
-        
-
 
 def destroy():
     lcd.clear()
@@ -108,8 +86,21 @@ except:
         print('I2C Address Error !')
         exit(1)
 # Create LCD, passing in MCP GPIO adapter.
-lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4, 5, 6, 7], GPIO=mcp)
 
+def loop():
+    mcp.output(3, 1)     # turn on LCD backlight
+    lcd.begin(16, 2)     # set number of LCD lines and columns
+    while(True):
+        temperature = get_temperature()
+        chauffage()
+        buttonDecrementPin.when_pressed = buttonDecrement
+        buttonIncrementPin.when_pressed = buttonIncrement 
+        display_temperature(temperature)
+        display_cible()
+        restart()
+        lcd.setCursor(0, 0)
+        sleep (0.1)        
+        
 if __name__ == '__main__':
     print('Program is starting ... ')
     try:
