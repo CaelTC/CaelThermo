@@ -7,12 +7,12 @@
 ########################################################################
 from PCF8574 import PCF8574_GPIO
 from Adafruit_LCD1602 import Adafruit_CharLCD
-from time import sleep
+from time import sleep, time
 from Freenove_DHT import DHT
 from gpiozero import Button, LED
 import gpiozero
 import os
-from threading import Event
+
 
 
 
@@ -21,9 +21,8 @@ buttonDecrementPin = Button(22)
 buttonIncrementPin = Button(27)
 count = 18.0
 Relay_PIN = 16
-lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4, 5, 6, 7], GPIO=mcp)
 relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=False,  )
-
+activationTimeoutinSec = 60
 
 def get_temperature():
     sensor = DHT(DHTpin)
@@ -36,15 +35,20 @@ def get_temperature():
 def buttonIncrement():
     global count
     count = count + 0.5
-    sleep (0.2)
-   
+    
+
+
+def now():
+    return time
+
+
 def chauffage():
     global count
     if count > get_temperature():
         relay.on()
-    else:
+        timeOn = now()
+    elif now() >= timeOn + activationTimeoutinSec:
         relay.off()
-        Event.wait(60)
     
 def restart():
     global count
@@ -56,7 +60,7 @@ def restart():
 def buttonDecrement():
     global count
     count = count - 0.5
-    sleep(0.2)
+    
 
 def display_temperature(temperature):
     if temperature is None:
@@ -86,6 +90,7 @@ except:
         print('I2C Address Error !')
         exit(1)
 # Create LCD, passing in MCP GPIO adapter.
+lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4, 5, 6, 7], GPIO=mcp)
 
 def loop():
     mcp.output(3, 1)     # turn on LCD backlight
@@ -99,11 +104,14 @@ def loop():
         display_cible()
         restart()
         lcd.setCursor(0, 0)
-        sleep (0.1)        
+                
         
 if __name__ == '__main__':
     print('Program is starting ... ')
     try:
         loop()
+        
+        
+        
     except KeyboardInterrupt:
         destroy()
