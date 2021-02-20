@@ -23,6 +23,7 @@ count = 18.0
 Relay_PIN = 16
 relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=False,  )
 activationTimeoutinSec = 60
+timeOn = -60
 
 def get_temperature():
     sensor = DHT(DHTpin)
@@ -36,14 +37,12 @@ def buttonIncrement():
     global count
     count = count + 0.5
     
-
-
 def now():
     return time
 
-
 def chauffage():
     global count
+    global timeOn
     if count > get_temperature():
         relay.on()
         timeOn = now()
