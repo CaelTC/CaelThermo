@@ -42,11 +42,10 @@ def now():
 
 def chauffage():
     global count
-    global timeOn
     if count > get_temperature():
         relay.on()
-        timeOn = now()
-    elif now() >= timeOn + activationTimeoutinSec:
+        timeOn = time()
+    elif time() >= timeOn + activationTimeoutinSec:
         relay.off()
     
 def restart():
