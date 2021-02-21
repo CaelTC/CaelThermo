@@ -36,6 +36,7 @@ def get_temperature():
 def buttonIncrement():
     global count
     count = count + 0.5
+    display_cible()
     
 def now():
     return time
@@ -59,6 +60,7 @@ def restart():
 def buttonDecrement():
     global count
     count = count - 0.5
+    display_cible()
     
 
 def display_temperature(temperature):
@@ -98,7 +100,6 @@ def loop():
         temperature = get_temperature()
         chauffage()
         display_temperature(temperature)
-        display_cible()
         restart()
         lcd.setCursor(0, 0)
                 
