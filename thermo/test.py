@@ -1,6 +1,6 @@
 from time import time, sleep
 
-timeOn = 0
+timeOn = -3
 counter = 0
 
 def counterAdd ():
@@ -11,11 +11,17 @@ def counterAdd ():
 def now():
     return str(time())
 
-while True:
-    counterAdd()
-    if (counter %10) == 0 :
-        print ("Dizaine")
-        timeOn = time()
-    elif time() >= timeOn + 3 :
-        print ("off")
+def loop():
+    while True:
+        counterAdd()
+        global timeOn
+        if (counter %10) == 0 :
+            print ("Dizaine")
+            timeOn = time()
+        elif time() >= timeOn + 3 :
+            print ("off")
 
+try: 
+    loop()
+except KeyboardInterrupt:
+    counter = 0
