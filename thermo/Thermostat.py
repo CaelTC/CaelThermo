@@ -107,7 +107,7 @@ def loop():
         buttonIncrementPin.when_pressed = buttonIncrement 
         restart()
         lcd.setCursor(0, 0)
-                
+        print (str(time()))     
         
 if __name__ == '__main__':
     print('Program is starting ... ')
