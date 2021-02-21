@@ -97,8 +97,6 @@ def loop():
     while(True):
         temperature = get_temperature()
         chauffage()
-        buttonDecrementPin.when_pressed = buttonDecrement
-        buttonIncrementPin.when_pressed = buttonIncrement 
         display_temperature(temperature)
         display_cible()
         restart()
@@ -109,7 +107,8 @@ if __name__ == '__main__':
     print('Program is starting ... ')
     try:
         loop()
-        
+        buttonDecrementPin.when_pressed = buttonDecrement
+        buttonIncrementPin.when_pressed = buttonIncrement 
         
         
     except KeyboardInterrupt:
