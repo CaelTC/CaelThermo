@@ -22,7 +22,7 @@ buttonIncrementPin = Button(27)
 count = 18.0
 Relay_PIN = 16
 relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=False,  )
-activationTimeoutinSec = 180
+activationTimeoutinSec = 300
 timeOn = -60
 
 def get_temperature():
