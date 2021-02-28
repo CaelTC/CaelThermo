@@ -22,7 +22,7 @@ buttonIncrementPin = Button(27)
 count = 18.0
 Relay_PIN = 16
 relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=False,  )
-activationTimeoutinSec = 60
+activationTimeoutinSec = 180
 timeOn = -60
 
 def get_temperature():
@@ -107,7 +107,7 @@ def loop():
         buttonIncrementPin.when_pressed = buttonIncrement 
         restart()
         lcd.setCursor(0, 0)
-        print (str(time()))     
+           
         
 if __name__ == '__main__':
     print('Program is starting ... ')
