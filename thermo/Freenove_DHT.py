@@ -101,7 +101,7 @@ class DHT(object):
 			result = self.readDHT11Once()
 			if result == self.DHTLIB_OK:
 				return self.DHTLIB_OK
-			time.sleep(0.01)
+			time.sleep(0.1)
 		return result
 		
 		
@@ -117,7 +117,7 @@ def loop():
 		okRate = 100.0*okCnt/sumCnt;
 		print("sumCnt : %d, \t okRate : %.2f%% "%(sumCnt,okRate))
 		print("chk : %d, \t Humidity : %.2f, \t Temperature : %.2f "%(chk,dht.humidity,dht.temperature))
-		time.sleep(0.01)		
+		time.sleep(3)		
 		
 if __name__ == '__main__':
 	print ('Program is starting ... ')
