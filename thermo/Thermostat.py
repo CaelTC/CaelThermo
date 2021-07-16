@@ -27,11 +27,11 @@ timeOn = -60
 
 def get_temperature():
     sensor = DHT(DHTpin)
-    return sensor.temperature
-  
-def get_humidity():
-    sensor = DHT(DHTpin)
-    return sensor.humidity       
+    status = sensor.readDHT11()
+    if status is sensor.DHTLIB_OK:
+        return sensor.temperature
+    else:
+        return None
 
 def buttonIncrement():
     global count
@@ -60,13 +60,13 @@ def buttonDecrement():
     global count
     count = count - 0.5
 
-def display_temperature(temperature, humidity):
+def display_temperature(temperature):
     global count
     if temperature is None:
         lcd.message('Temperature error')
         lcd.clear
     else:
-        lcd.message('Temp: ' + str(temperature) +'\n'+str(humidity))
+        lcd.message('Temp: ' + str(temperature) +'\n')
         lcd.message('Cible ' + str(count) +'\n')
 
 def destroy():
@@ -92,10 +92,9 @@ def loop():
     lcd.begin(16, 2)     # set number of LCD lines and columns
     while(True):
         temperature = get_temperature()
-        humidity = get_humidity()
         chauffage()
         lcd.setCursor(0, 0)
-        display_temperature(temperature, humidity)
+        display_temperature(temperature)
         buttonDecrementPin.when_pressed = buttonDecrement
         buttonIncrementPin.when_pressed = buttonIncrement 
         restart()
