@@ -95,7 +95,7 @@ def loop():
         humidity = get_humidity()
         chauffage()
         lcd.setCursor(0, 0)
-        display_temperature(temperature)
+        display_temperature(temperature, humidity)
         buttonDecrementPin.when_pressed = buttonDecrement
         buttonIncrementPin.when_pressed = buttonIncrement 
         restart()
