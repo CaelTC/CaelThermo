@@ -27,11 +27,11 @@ timeOn = -60
 
 def get_temperature():
     sensor = DHT(DHTpin)
-    status = sensor.readDHT11()
-    if status is sensor.DHTLIB_OK:
-        return sensor.temperature
-    else:
-        return None
+    return sensor.temperature
+  
+def get_humidity():
+    sensor = DHT(DHTpin)
+    return sensor.humidity       
 
 def buttonIncrement():
     global count
@@ -60,13 +60,13 @@ def buttonDecrement():
     global count
     count = count - 0.5
 
-def display_temperature(temperature):
+def display_temperature(temperature, humidity):
     global count
     if temperature is None:
         lcd.message('Temperature error')
         lcd.clear
     else:
-        lcd.message('Temp: ' + str(temperature) +'\n')
+        lcd.message('Temp: ' + str(temperature) +'\n'+str(humidity))
         lcd.message('Cible ' + str(count) +'\n')
 
 def destroy():
@@ -88,16 +88,18 @@ except:
 lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4, 5, 6, 7], GPIO=mcp)
 
 def loop():
-    mcp.output(3, 1)     # turn on LCD backlight
+    mcp.output(3, 0)     # turn on LCD backlight
     lcd.begin(16, 2)     # set number of LCD lines and columns
     while(True):
         temperature = get_temperature()
+        humidity = get_humidity()
         chauffage()
+        lcd.setCursor(0, 0)
         display_temperature(temperature)
         buttonDecrementPin.when_pressed = buttonDecrement
         buttonIncrementPin.when_pressed = buttonIncrement 
         restart()
-        lcd.setCursor(0, 0)
+        
            
         
 if __name__ == '__main__':
