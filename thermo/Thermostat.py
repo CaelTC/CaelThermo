@@ -7,67 +7,70 @@
 ########################################################################
 from PCF8574 import PCF8574_GPIO
 from Adafruit_LCD1602 import Adafruit_CharLCD
-from time import sleep, time
+from time import time, sleep
 from Freenove_DHT import DHT
-from gpiozero import Button, LED
+from gpiozero import Button
 import gpiozero
 import os
 
 
 
-
+current_temperature = 20
 DHTpin = 17
 buttonDecrementPin = Button(22)
 buttonIncrementPin = Button(27)
-count = 18.0
+temperatureTarget = 18.0
 Relay_PIN = 16
 relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=False,  )
 activationTimeoutinSec = 300
 timeOn = -60
 
 def get_temperature():
-    sensor = DHT(DHTpin)
-    status = sensor.readDHT11()
-    if status is sensor.DHTLIB_OK:
-        return sensor.temperature
-    else:
-        return None
+    global current_temperature
+    try:
+        sensor = DHT(DHTpin)
+        status = sensor.readDHT11()
+        if status is sensor.DHTLIB_OK:
+            current_temperature = sensor.temperature
+    except Exception as e:
+        print(e)
 
 def buttonIncrement():
-    global count
-    count = count + 0.5   
+    global temperatureTarget
+    temperatureTarget = temperatureTarget + 0.5
     
 def now():
     return time
 
 def chauffage():
-    global count
+    global temperatureTarget
     global timeOn
-    if count > get_temperature():
+    global current_temperature
+    if temperatureTarget > current_temperature:
         relay.on()
         timeOn = time()
     elif time() >= timeOn + activationTimeoutinSec:
         relay.off()
     
 def restart():
-    global count
-    if count > 35:
+    global temperatureTarget
+    if temperatureTarget > 35:
         os.system("shutdown now -r")
-    if count < 10:
+    if temperatureTarget < 10:
         os.system("shutdown now -r")
 
 def buttonDecrement():
-    global count
-    count = count - 0.5
+    global temperatureTarget
+    temperatureTarget = temperatureTarget - 0.5
 
 def display_temperature(temperature):
-    global count
+    global temperatureTarget
     if temperature is None:
         lcd.message('Temperature error')
         lcd.clear
     else:
         lcd.message('Temp: ' + str(temperature) +'\n')
-        lcd.message('Cible ' + str(count) +'\n')
+        lcd.message('Cible ' + str(temperatureTarget) +'\n')
 
 def destroy():
     lcd.clear()
@@ -88,17 +91,22 @@ except:
 lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4, 5, 6, 7], GPIO=mcp)
 
 def loop():
+    global current_temperature
     mcp.output(3, 1)     # turn on LCD backlight
     lcd.begin(16, 2)     # set number of LCD lines and columns
+    counter = 0
     while(True):
-        temperature = get_temperature()
-        chauffage()
-        lcd.setCursor(0, 0)
-        display_temperature(temperature)
+        if counter > (0.1 * 100): # every 10 sec approx.
+            get_temperature() # this updates the current_temperature
+            chauffage()
+            lcd.setCursor(0, 0)
+            counter = 0
         buttonDecrementPin.when_pressed = buttonDecrement
         buttonIncrementPin.when_pressed = buttonIncrement 
+        display_temperature(current_temperature)
         restart()
-        
+        counter += 1
+        sleep(0.1)
            
         
 if __name__ == '__main__':
