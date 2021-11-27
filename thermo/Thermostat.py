@@ -89,30 +89,34 @@ except:
         exit(1)
 # Create LCD, passing in MCP GPIO adapter.
 lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4, 5, 6, 7], GPIO=mcp)
+def setup():
+    global current_temperature
+    mcp.output(3, 0)     # turn on LCD backlight
+    lcd.begin(16, 2)   
+    lcd.clear() 
+    lcd.setCursor(0, 0)
+
 
 def loop():
-    global current_temperature
-    mcp.output(3, 1)     # turn on LCD backlight
-    lcd.begin(16, 2)     # set number of LCD lines and columns
     counter = 0
-    while(True):
-        if counter > (0.1 * 100): # every 10 sec approx.
-            get_temperature() # this updates the current_temperature
-            chauffage()
-            lcd.setCursor(0, 0)
-            counter = 0
-        buttonDecrementPin.when_pressed = buttonDecrement
-        buttonIncrementPin.when_pressed = buttonIncrement 
-        display_temperature(current_temperature)
-        restart()
-        counter += 1
-        sleep(0.1)
+    if counter > (0.1 * 100): # every 10 sec approx.
+         get_temperature() # this updates the current_temperature
+         chauffage()
+        counter = 0
+    buttonDecrementPin.when_pressed = buttonDecrement
+    buttonIncrementPin.when_pressed = buttonIncrement 
+    display_temperature(current_temperature)
+    restart()
+    counter += 1
+    sleep(0.1)
            
         
 if __name__ == '__main__':
     print('Program is starting ... ')
     try:
-        loop()
+        setup()
+        while (True):
+            loop()
         
     except KeyboardInterrupt:
         destroy()
