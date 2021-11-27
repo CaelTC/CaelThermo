@@ -24,6 +24,8 @@ Relay_PIN = 16
 relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=False,  )
 activationTimeoutinSec = 300
 timeOn = -60
+counter = 0
+
 
 def get_temperature():
     global current_temperature
@@ -90,15 +92,16 @@ except:
 # Create LCD, passing in MCP GPIO adapter.
 lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4, 5, 6, 7], GPIO=mcp)
 def setup():
-    global current_temperature
-    mcp.output(3, 0)     # turn on LCD backlight
+    
+    mcp.output(3, )     # turn on LCD backlight
     lcd.begin(16, 2)   
     lcd.clear() 
     lcd.setCursor(0, 0)
 
 
 def loop():
-    counter = 0
+    global counter
+    global current_temperature
     if counter > (0.1 * 100): # every 10 sec approx.
         get_temperature() # this updates the current_temperature
         chauffage()
