@@ -100,8 +100,8 @@ def setup():
 def loop():
     counter = 0
     if counter > (0.1 * 100): # every 10 sec approx.
-         get_temperature() # this updates the current_temperature
-         chauffage()
+        get_temperature() # this updates the current_temperature
+        chauffage()
         counter = 0
     buttonDecrementPin.when_pressed = buttonDecrement
     buttonIncrementPin.when_pressed = buttonIncrement 
