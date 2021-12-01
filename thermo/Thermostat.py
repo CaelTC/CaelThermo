@@ -100,14 +100,14 @@ def setup():
 
 
 def loop():
-   while (True):
-    get_temperature() # this updates the current_temperature
-    chauffage()
-    buttonDecrementPin.when_pressed = buttonDecrement
-    buttonIncrementPin.when_pressed = buttonIncrement 
-    display_temperature()
-    restart()
-    sleep(0.1)
+    while (True):
+        get_temperature() # this updates the current_temperature
+        chauffage()
+        buttonDecrementPin.when_pressed = buttonDecrement
+        buttonIncrementPin.when_pressed = buttonIncrement 
+        display_temperature()
+        restart()
+        sleep(0.1)
            
         
 if __name__ == '__main__':
