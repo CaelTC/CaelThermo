@@ -91,6 +91,7 @@ def lcd_setup():
             print('I2C Address Error !')
             exit(1)
     lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4, 5, 6, 7], GPIO=mcp)
+    mcp = PCF8574_GPIO(PCF8574_address)
 def setup():
     lcd_setup()
     mcp.output(3, 1)     # turn on LCD backlight
