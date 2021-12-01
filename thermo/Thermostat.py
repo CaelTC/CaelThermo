@@ -82,10 +82,8 @@ def display():
         lcd.message('Temperature error')
     else:
         lcd.message('Temp: ' + str(current_temperature) +'\n')
-        print(current_temperature)
         lcd.message('Cible ' + str(temperatureTarget) +'\n')
-        print("update cible")
-
+        
 def destroy():
     lcd.clear()
 
