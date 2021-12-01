@@ -34,8 +34,8 @@ def get_temperature():
         status = sensor.readDHT11()
         if status is sensor.DHTLIB_OK:
             current_temperature = sensor.temperature
-        else
-            print(e)
+            print("température prise")
+        
     except Exception as e:
         print(e)
 
