@@ -70,7 +70,6 @@ def display_temperature():
     global current_temperature
     if temperature is None:
         lcd.message('Temperature error')
-        lcd.clear
     else:
         lcd.message('Temp: ' + str(current_temperature) +'\n')
         lcd.message('Cible ' + str(temperatureTarget) +'\n')
@@ -94,8 +93,8 @@ except:
 lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4, 5, 6, 7], GPIO=mcp)
 def setup():
     mcp.output(3, 1)     # turn on LCD backlight
-    lcd.begin(16, 2)   
     lcd.clear() 
+    lcd.begin(16, 2)   
     lcd.setCursor(0, 0)
 
 
