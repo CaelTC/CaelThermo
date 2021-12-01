@@ -68,7 +68,7 @@ def buttonDecrement():
 def display_temperature():
     global temperatureTarget
     global current_temperature
-    if temperature is None:
+    if current_temperature is None:
         lcd.message('Temperature error')
     else:
         lcd.message('Temp: ' + str(current_temperature) +'\n')
