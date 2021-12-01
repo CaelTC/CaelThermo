@@ -32,8 +32,10 @@ def get_temperature():
     try:
         sensor = DHT(DHTpin)
         status = sensor.readDHT11()
-        if status is sensor.DHTLIB_OK:
-            current_temperature = sensor.temperature
+            if status is sensor.DHTLIB_OK:
+                current_temperature = sensor.temperature
+            else
+                print(e)
     except Exception as e:
         print(e)
 
@@ -41,8 +43,6 @@ def buttonIncrement():
     global temperatureTarget
     temperatureTarget = temperatureTarget + 0.5
     
-def now():
-    return time
 
 def chauffage():
     global temperatureTarget
@@ -65,7 +65,7 @@ def buttonDecrement():
     global temperatureTarget
     temperatureTarget = temperatureTarget - 0.5
 
-def display_temperature():
+def display():
     global temperatureTarget
     global current_temperature
     if current_temperature is None:
@@ -103,7 +103,7 @@ def loop():
         chauffage()
         buttonDecrementPin.when_pressed = buttonDecrement
         buttonIncrementPin.when_pressed = buttonIncrement 
-        display_temperature()
+        display()
         restart()
         sleep(0.1)
            
