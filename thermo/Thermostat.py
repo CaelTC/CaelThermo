@@ -79,7 +79,7 @@ def display():
 def destroy():
     lcd.clear()
 
-def lcd_setup()
+def lcd_setup():
     PCF8574_address = 0x27  # I2C address of the PCF8574 chip.
     PCF8574A_address = 0x3F  # I2C address of the PCF8574A chip.
     try:
