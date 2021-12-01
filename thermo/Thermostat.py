@@ -44,9 +44,7 @@ def get_temperature():
         sensor = DHT(DHTpin)
         status = sensor.readDHT11()
         if status is sensor.DHTLIB_OK:
-            current_temperature = sensor.temperature
-            print(current_temperature)
-        
+            current_temperature = sensor.temperature        
     except Exception as e:
         print(e)
 
@@ -83,7 +81,7 @@ def display():
         lcd.message('Temperature error')
     else:
         lcd.message('Temp: ' + str(current_temperature) +'\n')
-        print("UpdateTemp")
+        print(current_temperature)
         lcd.message('Cible ' + str(temperatureTarget) +'\n')
         print("update cible")
 
