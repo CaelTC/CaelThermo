@@ -93,7 +93,6 @@ except:
 lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4, 5, 6, 7], GPIO=mcp)
 def setup():
     mcp.output(3, 1)     # turn on LCD backlight
-    lcd.clear() 
     lcd.begin(16, 2)   
     lcd.setCursor(0, 0)
 
