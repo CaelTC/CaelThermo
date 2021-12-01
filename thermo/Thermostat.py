@@ -100,6 +100,7 @@ def setup():
 
 
 def loop():
+   while (True):
     get_temperature() # this updates the current_temperature
     chauffage()
     buttonDecrementPin.when_pressed = buttonDecrement
@@ -113,8 +114,7 @@ if __name__ == '__main__':
     print('Program is starting ... ')
     try:
         setup()
-        while (True):
-            loop()
+        loop()
         
     except KeyboardInterrupt:
         destroy()
