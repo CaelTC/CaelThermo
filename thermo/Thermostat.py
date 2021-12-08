@@ -22,7 +22,7 @@ buttonIncrementPin = Button(27)
 temperatureTarget = 18.0
 Relay_PIN = 16
 relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=False,  )
-activationTimeoutinSec = 300
+activationTimeoutinSec = 600
 timeOn = -60
 counter = 0
 PCF8574_address = 0x27  # I2C address of the PCF8574 chip.
