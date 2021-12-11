@@ -13,8 +13,12 @@ from gpiozero import Button
 import gpiozero
 import os
 from systemd import journal
+import logging
+import uuid
 
-
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger()
+logger.addHandler(journal.JournaldLogHandler())
 current_temperature = 20
 DHTpin = 17
 buttonDecrementPin = Button(22)
@@ -60,10 +64,10 @@ def chauffage():
     if temperatureTarget > current_temperature:
         relay.on()
         timeOn = time()
-        journal.write("On")
+        logger.info("On")
     elif time() >= timeOn + activationTimeoutinSec:
         relay.off()
-        journal.write("Off")
+        logger.info("Off")
     
 def restart():
     global temperatureTarget
