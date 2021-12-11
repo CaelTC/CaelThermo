@@ -12,7 +12,7 @@ from Freenove_DHT import DHT
 from gpiozero import Button
 import gpiozero
 import os
-
+from systemd import journal
 
 
 current_temperature = 20
@@ -60,10 +60,10 @@ def chauffage():
     if temperatureTarget > current_temperature:
         relay.on()
         timeOn = time()
-        print("On")
+        journal.write("On")
     elif time() >= timeOn + activationTimeoutinSec:
         relay.off()
-        print("Off")
+        journal.write("Off")
     
 def restart():
     global temperatureTarget
