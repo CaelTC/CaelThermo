@@ -51,7 +51,8 @@ def get_temperature():
         sensor = DHT(DHTpin)
         status = sensor.readDHT11()
         if status is sensor.DHTLIB_OK:
-            current_temperature = sensor.temperature        
+            current_temperature = sensor.temperature 
+            log.info(current_temperature)      
     except Exception as e:
         print(e)
 
