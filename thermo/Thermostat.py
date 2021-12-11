@@ -31,6 +31,9 @@ timeOn = -60
 counter = 0
 PCF8574_address = 0x27  # I2C address of the PCF8574 chip.
 PCF8574A_address = 0x3F  # I2C address of the PCF8574A chip.
+currentState = False
+lastState = False
+
 try:
     mcp = PCF8574_GPIO(PCF8574_address)
 except:
@@ -64,11 +67,21 @@ def chauffage():
     if temperatureTarget > current_temperature:
         relay.on()
         timeOn = time()
-        
+        currentState = True
+                
     elif time() >= timeOn + activationTimeoutinSec:
         relay.off()
-       
-    
+        currentState = False
+def logChauffage():
+    global currentState
+    global lastState
+    if currentState != lastState:
+        if currentState is True:
+            log.info("On")
+            lastState = currentState
+        else: 
+            log.info("Off")
+            lastState = currentState
 def restart():
     global temperatureTarget
     if temperatureTarget > 35:
@@ -93,7 +106,7 @@ def display():
 def destroy():
     lcd.clear()
 
-    
+
 def setup():
     mcp.output(3, 1)     # turn on LCD backlight
     lcd.begin(16, 2)   
@@ -102,12 +115,20 @@ def setup():
 
 def loop():
     while (True):
-        get_temperature() # this updates the current_temperature
+        if counter > (0.1 * 100): # every 10 sec approx.
+            get_temperature() # this updates the current_temperature
+            chauffage()
+            lcd.setCursor(0, 0)
+            counter = 0
         chauffage()
         buttonDecrementPin.when_pressed = buttonDecrement
         buttonIncrementPin.when_pressed = buttonIncrement 
         display()
         restart()
+        logChauffage()
+        counter += 1
+        
+
         sleep(0.1)
            
         
