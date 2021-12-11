@@ -64,6 +64,7 @@ def chauffage():
     global temperatureTarget
     global timeOn
     global current_temperature
+    global currentState
     if temperatureTarget > current_temperature:
         relay.on()
         timeOn = time()
@@ -72,6 +73,7 @@ def chauffage():
     elif time() >= timeOn + activationTimeoutinSec:
         relay.off()
         currentState = False
+
 def logChauffage():
     global currentState
     global lastState
@@ -82,6 +84,7 @@ def logChauffage():
         else: 
             log.info("Off")
             lastState = currentState
+
 def restart():
     global temperatureTarget
     if temperatureTarget > 35:
@@ -127,8 +130,6 @@ def loop():
         restart()
         logChauffage()
         counter += 1
-        
-
         sleep(0.1)
            
         
