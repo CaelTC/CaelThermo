@@ -117,11 +117,10 @@ def setup():
 
 
 def loop():
+    global counter
     while (True):
         if counter > (0.1 * 100): # every 10 sec approx.
             get_temperature() # this updates the current_temperature
-            chauffage()
-            lcd.setCursor(0, 0)
             counter = 0
         chauffage()
         buttonDecrementPin.when_pressed = buttonDecrement
