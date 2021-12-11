@@ -65,13 +65,14 @@ def buttonDecrement():
     global temperatureTarget
     temperatureTarget = temperatureTarget - 0.5
 
-def display_temperature(temperature):
+def display_temperature():
     global temperatureTarget
-    if temperature is None:
+    global current_temperature
+    if current_temperature is None:
         lcd.message('Temperature error')
         lcd.clear
     else:
-        lcd.message('Temp: ' + str(temperature) +'\n')
+        lcd.message('Temp: ' + str(current_temperature) +'\n')
         lcd.message('Cible ' + str(temperatureTarget) +'\n')
 
 def destroy():
@@ -99,12 +100,11 @@ def setup():
 
 
 def loop():
-    global current_temperature
     get_temperature() # this updates the current_temperature
     chauffage()
     buttonDecrementPin.when_pressed = buttonDecrement
     buttonIncrementPin.when_pressed = buttonIncrement 
-    display_temperature(current_temperature)
+    display_temperature()
     restart()
     sleep(0.1)
            
