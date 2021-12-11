@@ -64,10 +64,10 @@ def chauffage():
     if temperatureTarget > current_temperature:
         relay.on()
         timeOn = time()
-        log.info("On")
+        
     elif time() >= timeOn + activationTimeoutinSec:
         relay.off()
-        log.info("Off")
+       
     
 def restart():
     global temperatureTarget
