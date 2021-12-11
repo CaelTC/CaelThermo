@@ -12,12 +12,11 @@ from Freenove_DHT import DHT
 from gpiozero import Button
 import gpiozero
 import os
-from systemd import journal
+from systemd.journal import JournalHandler
 import logging
 
-
 log = logging.getLogger('Chauffage')
-log.addHandler(journal.JournaldLogHandler())
+log.addHandler(JournalHandler())
 log.setLevel(logging.INFO)
 
 current_temperature = 20
