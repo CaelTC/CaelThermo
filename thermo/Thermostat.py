@@ -133,8 +133,8 @@ def setup():
 def loop():
     global counter
     while (True):
-        if counter > (0.1 * 300): # every 30 sec approx.
-            get_temperature() # this updates the current_temperature
+        if counter > (0.1 * 600): # every minute approx.
+            get_temperature() 
             counter = 0
         chauffage()
         buttonDecrementPin.when_pressed = buttonDecrement
