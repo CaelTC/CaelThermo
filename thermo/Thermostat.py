@@ -99,7 +99,7 @@ def logChauffage():
             logchauffage.info('On,%s', current_temperature)
             lastState = currentState
         else: 
-            logchauffage.info('On,%s', current_temperature)
+            logchauffage.info('Off,%s', current_temperature)
             lastState = currentState
 
 def restart():
