@@ -8,7 +8,7 @@ lgr = logging.getLogger()
 lgr.setLevel(logging.DEBUG) # log all escalated at and above DEBUG# add a file handler
 fh = logging.FileHandler('/home/cael/CaelThermo/test.csv')
 fh.setLevel(logging.DEBUG) # ensure all messages are logged to file
-timE = time()
+
 # create a formatter and set the formatter for the handler.
 frmt = logging.Formatter('%(asctime)s, %(message)s, ')
 fh.setFormatter(frmt)
