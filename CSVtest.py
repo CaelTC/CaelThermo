@@ -22,7 +22,7 @@ def add():
     print("+1")
 def write():
     global counter
-    lgr.debug('counter'+''+'%s', counter)
+    lgr.debug('%s', counter)
 def loop():
     write()
     add()
