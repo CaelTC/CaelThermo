@@ -8,25 +8,30 @@ import gpiozero
 import os
 import logging
 
+
+
+formatdata = logging.Formatter('%(asctime)s %(message)s')
+
 logtemp = logging.getLogger('LogTemp')
-logchauffage = logging.getLogger('Chauffage')
-
-formatdata = logging.Formatter('%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
-
-printcsvchauf = logging.FileHandler('/home/cael/CaelThermo/thermo/CSV/chauffage.csv')
-printcsvtemp = logging.FileHandler('/home/cael/CaelThermo/thermo/CSV/temperature.csv')
-
-printcsvtemp.setLevel(logging.INFO)
-printcsvchauf.setLevel(logging.INFO)
-
 logtemp.setLevel(logging.INFO)
-logchauffage.setLevel(logging.INFO)
-
+printcsvtemp = logging.FileHandler('/home/cael/CaelThermo/thermo/CSV/temperature.csv')
+printcsvtemp.setLevel(logging.INFO)
 printcsvtemp.setFormatter(formatdata)
-printcsvchauf.setFormatter(formatdata)
-
-logchauffage.addHandler(printcsvchauf)
 logtemp.addHandler(printcsvtemp)
+
+
+
+
+
+
+
+logchauffage = logging.getLogger('Chauffage')
+logchauffage.setLevel(logging.INFO)
+printcsvchauf = logging.FileHandler('/home/cael/CaelThermo/thermo/CSV/chauffage.csv')
+printcsvchauf.setLevel(logging.INFO)
+printcsvchauf.setFormatter(formatdata)
+logchauffage.addHandler(printcsvchauf)
+
 
 DHTpin = 17
 buttonDecrementPin = Button(22)
