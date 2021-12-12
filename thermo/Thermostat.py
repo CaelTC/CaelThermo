@@ -68,7 +68,7 @@ def get_temperature():
         status = sensor.readDHT11()
         if status is sensor.DHTLIB_OK:
             current_temperature = sensor.temperature 
-            logtemp.info('%s, %s,'.format(current_temperature, counter))      
+            logtemp.info('%s',current_temperature)      
     except Exception as e:
         print(e)
 
