@@ -1,10 +1,4 @@
-#!/usr/bin/env python3
-########################################################################
-# Filename    : I2CLCD1602.py
-# Description : Use the LCD display data
-# Author      : freenove
-# modification: 2018/08/03
-########################################################################
+from typing import Counter
 from PCF8574 import PCF8574_GPIO
 from Adafruit_LCD1602 import Adafruit_CharLCD
 from time import time, sleep
@@ -12,25 +6,46 @@ from Freenove_DHT import DHT
 from gpiozero import Button
 import gpiozero
 import os
-from systemd.journal import JournalHandler
 import logging
 
-log = logging.getLogger('Chauffage')
-log.addHandler(JournalHandler())
-log.setLevel(logging.INFO)
+logtemp = logging.getLogger('LogTemp')
+logchauffage = logging.getLogger('Chauffage')
 
-current_temperature = 20
+formatdata = logging.Formatter('%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+
+printcsvchauf = logging.FileHandler('/home/cael/CaelThermo/thermo/CSV/chauffage.csv')
+printcsvtemp = logging.FileHandler('/home/cael/CaelThermo/thermo/CSV/temperature.csv')
+
+printcsvtemp.setLevel(logging.INFO)
+printcsvchauf.setLevel(logging.INFO)
+
+logtemp.setLevel(logging.INFO)
+logchauffage.setLevel(logging.INFO)
+
+printcsvtemp.setFormatter(formatdata)
+printcsvchauf.setFormatter(formatdata)
+
+logchauffage.addHandler(printcsvchauf)
+logtemp.addHandler(printcsvtemp)
+
 DHTpin = 17
 buttonDecrementPin = Button(22)
 buttonIncrementPin = Button(27)
 temperatureTarget = 18.0
 Relay_PIN = 16
-relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=False,  )
+relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=False,)
+PCF8574_address = 0x27  
+PCF8574A_address = 0x3F  
+
+
 activationTimeoutinSec = 600
 timeOn = -60
+
+current_temperature = 20
 counter = 0
-PCF8574_address = 0x27  # I2C address of the PCF8574 chip.
-PCF8574A_address = 0x3F  # I2C address of the PCF8574A chip.
+
+
+
 currentState = False
 lastState = False
 
@@ -47,12 +62,13 @@ lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4, 5, 6, 7], GPIO=mcp)
 
 def get_temperature():
     global current_temperature
+    global counter
     try:
         sensor = DHT(DHTpin)
         status = sensor.readDHT11()
         if status is sensor.DHTLIB_OK:
             current_temperature = sensor.temperature 
-            log.info(current_temperature)      
+            logtemp.info('%s, %s,'.format(current_temperature, counter))      
     except Exception as e:
         print(e)
 
@@ -60,7 +76,6 @@ def buttonIncrement():
     global temperatureTarget
     temperatureTarget = temperatureTarget + 0.5
     
-
 def chauffage():
     global temperatureTarget
     global timeOn
@@ -78,12 +93,13 @@ def chauffage():
 def logChauffage():
     global currentState
     global lastState
+    global current_temperature
     if currentState != lastState:
         if currentState is True:
-            log.info("On")
+            logchauffage.info('On,%s', current_temperature)
             lastState = currentState
         else: 
-            log.info("Off")
+            logchauffage.info('On,%s', current_temperature)
             lastState = currentState
 
 def restart():
@@ -110,17 +126,14 @@ def display():
 def destroy():
     lcd.clear()
 
-
 def setup():
     mcp.output(3, 1)     # turn on LCD backlight
     lcd.begin(16, 2)   
     
-
-
 def loop():
     global counter
     while (True):
-        if counter > (0.1 * 100): # every 10 sec approx.
+        if counter > (0.1 * 300): # every 30 sec approx.
             get_temperature() # this updates the current_temperature
             counter = 0
         chauffage()
