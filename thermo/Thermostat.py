@@ -1,4 +1,4 @@
-from typing import Counter
+import csv
 from PCF8574 import PCF8574_GPIO
 from Adafruit_LCD1602 import Adafruit_CharLCD
 from time import time, sleep
@@ -14,20 +14,15 @@ formatdata = logging.Formatter('%(asctime)s %(message)s')
 
 logtemp = logging.getLogger('LogTemp')
 logtemp.setLevel(logging.INFO)
-printcsvtemp = logging.FileHandler('/home/cael/CaelThermo/thermo/CSV/temperature.csv')
+printcsvtemp = logging.FileHandler('/home/pi/CaelThermo/thermo/temperature.csv')
 printcsvtemp.setLevel(logging.INFO)
 printcsvtemp.setFormatter(formatdata)
 logtemp.addHandler(printcsvtemp)
 
 
-
-
-
-
-
 logchauffage = logging.getLogger('Chauffage')
 logchauffage.setLevel(logging.INFO)
-printcsvchauf = logging.FileHandler('/home/cael/CaelThermo/thermo/CSV/chauffage.csv')
+printcsvchauf = logging.FileHandler('/home/pi/CaelThermo/thermo/chauffage.csv')
 printcsvchauf.setLevel(logging.INFO)
 printcsvchauf.setFormatter(formatdata)
 logchauffage.addHandler(printcsvchauf)
@@ -36,7 +31,6 @@ logchauffage.addHandler(printcsvchauf)
 DHTpin = 17
 buttonDecrementPin = Button(22)
 buttonIncrementPin = Button(27)
-temperatureTarget = 18.0
 Relay_PIN = 16
 relay = gpiozero.OutputDevice(Relay_PIN, active_high=False, initial_value=False,)
 PCF8574_address = 0x27  
@@ -46,6 +40,7 @@ PCF8574A_address = 0x3F
 activationTimeoutinSec = 600
 timeOn = -60
 
+temperatureTarget = 18.0
 current_temperature = 20
 counter = 0
 
